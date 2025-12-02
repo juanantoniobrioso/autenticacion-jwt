@@ -28,7 +28,7 @@ if (isset($users[$usernameDecoded])) {
     http_response_code(403);
     echo json_encode([
         'status' => 'error',
-        'message' => 'Acceso denegado'
+        'mensaje' => 'Acceso denegado'
     ]);
 }
 ?>

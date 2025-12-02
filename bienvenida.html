@@ -9,8 +9,8 @@
 
     <div class="card">
         <h1>Bienvenido, <span id="userName">Cargando...</span></h1>
-        <p id="welcomeMsg"></p>
-        <p>Ahora mismo son las <strong id="serverTime">--:--</strong></p>
+        <p id="mensajeBienvenida"></p>
+        <p>Ahora mismo son las <strong id="horaActual">--:--</strong></p>
         <p>Muchas gracias por iniciar sesión en nuestra página</p>
         
         <button id="logoutBtn">Cerrar Sesión</button>
@@ -41,8 +41,8 @@
                 } else if (response.ok) {
                     const data = await response.json();
                     document.getElementById('userName').textContent = data.username;
-                    document.getElementById('welcomeMsg').textContent = data.message;
-                    document.getElementById('serverTime').textContent = data.time;
+                    document.getElementById('mensajeBienvenida').textContent = data.mensaje;
+                    document.getElementById('horaActual').textContent = data.time;
                 }
             } catch (error) {
                 console.error("Error al cargar datos", error);
