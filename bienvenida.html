@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Bienvenida</title>
+    <link rel="stylesheet" href="css/bienvenida.css">
+</head>
+<body>
+
+    <div class="card">
+        <h1>Bienvenido, <span id="userName">Cargando...</span></h1>
+        <p id="welcomeMsg"></p>
+        <p>Ahora mismo son las <strong id="serverTime">--:--</strong></p>
+        <p>Muchas gracias por iniciar sesión en nuestra página</p>
+        
+        <button id="logoutBtn">Cerrar Sesión</button>
+    </div>
+
+    <script>
+        // Verificar si hay token
+        const token = localStorage.getItem('authToken');
+
+        if (!token) {
+            // Si no hay token
+            window.location.href = 'error.html';
+        }
+
+        // Llamar a la API 
+        async function llamadaAPI() {
+            try {
+                const response = await fetch('api/bienvenida.php', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': token // Envio de token
+                    }
+                });
+
+                if (response.status === 403 || response.status === 401) {
+                    // Si la API dice que el token es inválido 
+                    window.location.href = 'error.html';
+                } else if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('userName').textContent = data.username;
+                    document.getElementById('welcomeMsg').textContent = data.message;
+                    document.getElementById('serverTime').textContent = data.time;
+                }
+            } catch (error) {
+                console.error("Error al cargar datos", error);
+            }
+        }
+
+        // Boton de cerrar sesion
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            localStorage.removeItem('authToken'); // Borrar token
+            window.location.href = 'login.html';  // Redirigir a login
+        });
+
+        // Iniciar llamada
+        llamadaAPI();
+    </script>
+</body>
+</html>

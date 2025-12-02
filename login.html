@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+
+    <form id="loginForm">
+        <h2 style="text-align:center">Iniciar Sesión</h2>
+        <p id="error-msg"></p>
+        
+        <div>
+            <label for="username">Usuario</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div>
+            <label for="password">Contraseña</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit">Entrar</button>
+    </form>
+
+    <script>
+        const form = document.getElementById('loginForm');
+        const errorMsg = document.getElementById('error-msg');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('api/login.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    // Guardar token en localStorage
+                    localStorage.setItem('authToken', result.token);
+                    // Redirigir a bienvenida
+                    window.location.href = 'bienvenida.html';
+                } else {
+                    // Manejar error 401
+                    errorMsg.textContent = "Credenciales incorrectas.";
+                    errorMsg.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                errorMsg.textContent = "Error de conexión con la API.";
+                errorMsg.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
