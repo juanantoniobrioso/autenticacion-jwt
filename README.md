@@ -13,3 +13,11 @@ que se validará al entrar a bienvenida. Si no lo hay o es inválido, te envía 
 y tendrás que volver a iniciar sesión. Si no, te llevará a bienvenida.
 
 Si entras directamente en bienvenida sin iniciar sesión, como no hay un token registrado, te llevará directo a error.html y tendrás que volver al inicio de sesión.
+
+## Usuarios para iniciar sesión
+
+Usuario: admin
+Contraseña: 1234
+
+Usuario: user
+Contraseña: abcd
